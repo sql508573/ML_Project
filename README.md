@@ -103,9 +103,13 @@ python inference.py
 # End of day: Log today's sales
 python data/log_daily.py
 # Enter user_id, sales, weather, promo info
+# Minimal log (user_id + total amount):
+python data/log_daily_minimal.py
 
 # End of day: Retrain with updated data
 python retrain_and_predict.py
+# Optional API (flask required):
+python api_interface.py
 # Model updates with new data
 ```
 
@@ -204,7 +208,7 @@ ML_Project/
 **Name:** BatterShopDB
 
 **Collections:**
-- **Users**: user_id, name, email, phone, age, location, shop_defaults
+- **Users**: user_id, name, email, phone, age, location, shop_constants
 - **DailyDemand**: user_id, Date, features, sales data (1463+ records)
 
 ---

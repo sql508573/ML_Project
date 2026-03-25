@@ -38,14 +38,17 @@ def register_user():
         return
 
     try:
-        avg_temp          = float(input("Average Temperature at your location (°C): ").strip())
-        restaurant_sales  = float(input("Typical Daily Restaurant Sales (kg): ").strip())
+        base_daily_demand_kg = float(input("Baseline daily batter demand estimate (kg): ").strip())
+        restaurant_sales_share = float(input("Fraction to restaurants (0-1, e.g. 0.65): ").strip())
     except ValueError:
         print("Invalid numeric input.")
         return
+    if not 0 <= restaurant_sales_share <= 1:
+        print("Restaurant share must be between 0 and 1.")
+        return
 
     user_id  = get_next_user_id()
-    user_doc = build_user_doc(user_id, name, email, phone, age, location, avg_temp, restaurant_sales)
+    user_doc = build_user_doc(user_id, name, email, phone, age, location, base_daily_demand_kg, restaurant_sales_share)
     insert_user(user_doc)
     print(f"\nRegistered successfully. Your User ID is: {user_id}")
 

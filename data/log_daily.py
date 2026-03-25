@@ -30,7 +30,8 @@ def log_daily():
         rainy            = int(input("Rainy day? (1=Yes, 0=No): ").strip())
         holiday          = int(input("Public holiday? (1=Yes, 0=No): ").strip())
         promo            = int(input("Promotion? (1=Yes, 0=No): ").strip())
-        temp             = float(input("Average Temperature today (°C): ").strip())
+        temp_input       = input("Average Temperature today (°C) [default 30]: ").strip()
+        temp             = float(temp_input) if temp_input else 30.0
     except ValueError:
         print("Invalid input.")
         return
