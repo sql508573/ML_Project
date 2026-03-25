@@ -1,6 +1,6 @@
 """Utility modules for the ML project"""
 from .logger import get_logger, setup_logging
-from .validators import validate_email, validate_phone, validate_numeric
+from .validators import validate_email, validate_phone, validate_numeric, validate_user_input
 
 __all__ = [
     "get_logger",
@@ -8,4 +8,5 @@ __all__ = [
     "validate_email",
     "validate_phone",
     "validate_numeric",
+    "validate_user_input",
 ]
