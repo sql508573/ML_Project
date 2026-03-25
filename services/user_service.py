@@ -1,5 +1,5 @@
-from db.mongo_client import get_db
-from config.settings import USERS_COLLECTION
+from database import get_db
+from config import USERS_COLLECTION
 
 def get_next_user_id():
     client, db = get_db()
@@ -27,5 +27,13 @@ def get_user_by_id(user_id):
     client, db = get_db()
     try:
         return db[USERS_COLLECTION].find_one({"user_id": user_id}, {"_id": 0})
+    finally:
+        client.close()
+
+def get_all_users():
+    """Fetch all users from database"""
+    client, db = get_db()
+    try:
+        return list(db[USERS_COLLECTION].find({}, {"_id": 0}))
     finally:
         client.close()

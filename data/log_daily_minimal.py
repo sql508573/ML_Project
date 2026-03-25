@@ -3,12 +3,11 @@ import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from datetime import datetime
-from schemas.demand_schema import build_demand_doc
-from services.demand_service import insert_demand, fetch_prev_day_demand
-from services.user_service import get_user_by_id
+from schemas import build_demand_doc
+from services import insert_demand, fetch_prev_day_demand, get_user_by_id
 
 
-def log_daily_minimal():
+def run_log_daily_minimal():
     print("\n===== Log Daily Sales (Minimal Input) =====\n")
 
     user_id_input = input("Enter User ID: ").strip()
@@ -53,4 +52,4 @@ def log_daily_minimal():
 
 
 if __name__ == "__main__":
-    log_daily_minimal()
+    run_log_daily_minimal()

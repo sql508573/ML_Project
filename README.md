@@ -95,23 +95,126 @@ python retrain_and_predict.py
 
 ### Daily Operations
 
+All commands are now available through a unified CLI interface:
+
 ```bash
-# Morning or anytime: Get prediction for a user
-python inference.py
+# Register new user
+python main.py register
+
+# Get prediction for a user  
+python main.py predict
+
+# Send prediction via WhatsApp (single)
+python main.py predict-whatsapp
+
+# Send predictions to all users (batch)
+python main.py predict-batch
+
+# Schedule automatic daily predictions
+python main.py scheduler --time 08:00
+
+# Log daily sales
+python main.py log              # Detailed entry
+python main.py log-minimal      # Quick entry
+
+# Check MongoDB data
+python main.py check
+
+# Retrain models
+python main.py retrain
+
+# Start API server
+python main.py api
+
+# Debug info
+python main.py debug
+```
+
+**Or run scripts individually:**
+```bash
+python scripts/register_user.py
+python scripts/inference.py
+python scripts/inference_whatsapp.py --batch
+python scripts/retrain_and_predict.py
+```
+
+---
+
+## 📁 Project Structure
+
+The codebase follows a **modular, layered architecture**. See [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md) for detailed walkthrough.
+
+Quick overview:
+
+```bash
+config/        - Settings & configuration
+database/      - MongoDB connection layer
+schemas/       - Data structure builders  
+services/      - Business logic layer
+ml/            - Machine learning pipeline
+data/          - Data utilities (logging, verification)
+utils/         - Validators, logging, helpers
+api/           - Flask REST API
+scripts/       - CLI entry points
+```
+
+---
+
+## 🎯 Workflow
+
+### Initial Setup (One-time)
+
+After installation, setup your system:
+
+```bash
+# 1. Verify MongoDB has data
+python main.py check
+
+# 2. Register a batter shop user
+python main.py register
+# Interactive prompts - enter shop details
+# Returns: User ID (e.g., 1001)
+
+# 3. Train initial global model
+python main.py retrain
+# Trains on all data and saves models
+```
+
+### Daily Operations
+
+```bash
+# 1. Morning: Get prediction for a user
+python main.py predict
 # Enter user_id → Get demand prediction
 
-# End of day: Log today's sales
-python data/log_daily.py
-# Enter user_id, sales, weather, promo info
-# Minimal log (user_id + total amount):
-python data/log_daily_minimal.py
+# Or send to all users via WhatsApp
+python main.py predict-batch
 
-# End of day: Retrain with updated data
-python retrain_and_predict.py
-# Optional API (flask required):
-python api_interface.py
-# Model updates with new data
+# 2. End of day: Log today's sales
+python main.py log              # Full details
+python main.py log-minimal      # Quick summary
+
+# 3. End of day: Retrain with updated data
+python main.py retrain
 ```
+
+### 📱 WhatsApp Notifications
+
+Send demand predictions via WhatsApp to users:
+
+```bash
+# Single user prediction via WhatsApp
+python main.py predict-whatsapp
+# Enter user_id → Prediction sent to their phone
+
+# Batch: Send predictions to all users
+python main.py predict-batch
+
+# Schedule automatic daily predictions
+python main.py scheduler --time 08:00
+```
+
+**Setup:** See [WHATSAPP_SETUP.md](WHATSAPP_SETUP.md) for Twilio configuration
 
 ---
 
@@ -172,6 +275,8 @@ ML_Project/
 | `retrain_and_predict.py` | Retrain global model | After initial setup, nightly |
 | `data/upload.py` | Check MongoDB data | Verify data exists |
 | `data/log_daily.py` | Log daily sales data | End of each day |
+| `inference_whatsapp.py` | Send prediction via WhatsApp | Morning - send to single/all users |
+| `schedule_whatsapp_predictions.py` | Schedule automatic WhatsApp sends | Run once, sends daily at set time |
 
 ---
 

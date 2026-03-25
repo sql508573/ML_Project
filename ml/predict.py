@@ -40,11 +40,32 @@ def build_features(user, records, global_avg_demand=0.0, weight_own=0.7):
     }])
 
 
-def predict(rf_model, xgb_model, features, user_name):
+def predict(rf_model, xgb_model, features, user_name, verbose=True):
+    """
+    Make prediction using ensemble of Random Forest and XGBoost
+    
+    Args:
+        rf_model: Trained Random Forest model
+        xgb_model: Trained XGBoost model
+        features: Feature dataframe
+        user_name: Name of user (for display)
+        verbose: Whether to print predictions (default True)
+        
+    Returns:
+        dict: {rf_pred, xgb_pred, avg_pred}
+    """
     rf_pred = rf_model.predict(features)[0]
     xgb_pred = xgb_model.predict(features)[0]
+    avg_pred = (rf_pred + xgb_pred) / 2
 
-    print(f"\n========== Next Day Prediction for {user_name} ==========")
-    print(f"Random Forest  : {rf_pred:.2f} kg")
-    print(f"XGBoost        : {xgb_pred:.2f} kg")
-    print(f"Average        : {(rf_pred + xgb_pred) / 2:.2f} kg")
+    if verbose:
+        print(f"\n========== Next Day Prediction for {user_name} ==========")
+        print(f"Random Forest  : {rf_pred:.2f} kg")
+        print(f"XGBoost        : {xgb_pred:.2f} kg")
+        print(f"Average        : {avg_pred:.2f} kg")
+    
+    return {
+        "rf_pred": rf_pred,
+        "xgb_pred": xgb_pred,
+        "avg_pred": avg_pred
+    }

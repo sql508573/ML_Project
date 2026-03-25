@@ -4,8 +4,8 @@ import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
 from xgboost import XGBRegressor
-from config.settings import FEATURE_COLS, TARGET_COL, MODELS_DIR
-from ml.evaluate import evaluate
+from config import FEATURE_COLS, TARGET_COL, MODELS_DIR
+from ml import evaluate
 
 def train(df):
     # Need minimum data for train/test split

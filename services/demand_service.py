@@ -1,5 +1,5 @@
-from db.mongo_client import get_db
-from config.settings import DEMAND_COLLECTION
+from database import get_db
+from config import DEMAND_COLLECTION
 
 def insert_demand(record):
     client, db = get_db()
